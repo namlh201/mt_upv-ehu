@@ -1,13 +1,9 @@
-# from gc import collect
-
 from torch import tensor, Tensor
-# from torch.cuda import empty_cache
 from torch.nn.utils.rnn import pad_sequence
 from datasets import Dataset
 from transformers import Trainer
 from transformers.integrations import WandbCallback
 from tqdm import tqdm
-# from unsloth import FastLanguageModel
 
 from eval import check_valid_for_metrics, format_for_metrics, METRIC_MAP
 
@@ -72,9 +68,6 @@ class EvalCallback(WandbCallback):
         else:
             self.model.eval()
         outputs = self.model.generate(**inputs, max_new_tokens=512, use_cache=True)
-        # outputs = self.model.generate(**inputs, max_new_tokens=1024, use_cache=True)
-        # empty_cache()
-        # collect()
         if self.is_unsloth:
             self.for_training(self.model, use_gradient_checkpointing=self.use_gradient_checkpointing)
         else:
@@ -100,8 +93,6 @@ class EvalCallback(WandbCallback):
             references = []
             candidates = []
 
-            # en_src_list = eval_dataset['en'] if 'en' in eval_dataset.column_names else eval_dataset['eng']
-            # ru_trans_list = eval_dataset['ru'] if 'ru' in eval_dataset.column_names else eval_dataset['rus']
             if "en" in eval_dataset.column_names:
                 en_src_list = eval_dataset["en"]
             elif "eng" in eval_dataset.column_names:
@@ -136,11 +127,8 @@ class EvalCallback(WandbCallback):
                 candidates.extend(self.generate(prompts))
 
                 if self.calculate_loss:
-                    # _eval_loss = 0.0
-                    # eval_loss += self.loss(texts, label_masks)
                     for bs in range(0, len(texts), 1):
                         eval_loss += self.loss(texts[bs:bs + 1], label_masks[bs:bs + 1])
-                    # eval_loss += _eval_loss / (len(texts) // 1)
 
             eval_res = {}
 
