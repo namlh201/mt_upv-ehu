@@ -1,0 +1,10 @@
+.env
+__pycache__
+ignore
+data
+logs
+models
+scripts
+unsloth_compiled_cache
+wandb
+notes.txt

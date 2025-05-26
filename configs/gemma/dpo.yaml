@@ -1,0 +1,4 @@
+model: !include common/model_configs/gemma.yaml
+lora: !include common/model_configs/lora_16bit.yaml
+train_params: !include common/params/dpo_train_params.yaml
+lora_params: !include common/params/lora_params.yaml
